@@ -1,8 +1,8 @@
-package com.github.sagifogel.freeemanfunctors.instances
+package com.github.sagifogel.freemanfunctors.instances
 
 import cats.Functor
 import cats.arrow.Profunctor
-import com.github.sagifogel.freeemanfunctors.data.{Forget, Star}
+import com.github.sagifogel.freemanfunctors.data.{Forget, Star}
 
 object ProfunctorsInstances {
   implicit def arrowProfunctor: Profunctor[Function1] = new Profunctor[Function1] {

@@ -1,4 +1,4 @@
-package com.github.sagifogel.freeemanfunctors.syntax
+package com.github.sagifogel.freemanfunctors.syntax
 
 object Function1Syntax {
   implicit class Function1Ops[A, B, C](val f: A => B => C) extends AnyVal {
