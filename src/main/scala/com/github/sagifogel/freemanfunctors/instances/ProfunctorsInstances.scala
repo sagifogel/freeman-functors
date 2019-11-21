@@ -1,8 +1,8 @@
 package com.github.sagifogel.freemanfunctors.instances
 
 import cats.Functor
-import cats.arrow.Profunctor
-import com.github.sagifogel.freemanfunctors.data.{Costar, Fold, Forget, Star}
+import cats.arrow.{Arrow, Profunctor}
+import com.github.sagifogel.freemanfunctors.data.{Costar, Fold, Forget, Mealy, Star}
 
 object ProfunctorsInstances {
   implicit def arrowProfunctor: Profunctor[Function1] = new Profunctor[* => *] {
@@ -33,5 +33,11 @@ object ProfunctorsInstances {
   implicit def foldProfunctor[M]: Profunctor[Fold[M, *, *]] = new Profunctor[Fold[M, *, *]] {
     override def dimap[A, B, C, D](fab: Fold[M, A, B])(f: C => A)(g: B => D): Fold[M, C, D] =
       Fold(k => fab.runFold(k compose g) compose f)
+  }
+
+  implicit def mealyProfunctor(implicit A: Arrow[Mealy]): Profunctor[Mealy] = new Profunctor[Mealy] {
+    override def dimap[A, B, C, D](fab: Mealy[A, B])(f: C => A)(g: B => D): Mealy[C, D] = {
+      fab.dimap(f)(g)
+    }
   }
 }
