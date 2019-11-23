@@ -8,7 +8,7 @@ object ArrowInstances {
     override def lift[A, B](f: A => B): Mealy[A, B] = Mealy(a => (f(a), lift(f)))
 
     override def compose[A, B, C](f: Mealy[B, C], g: Mealy[A, B]): Mealy[A, C] =
-      Mealy[A, C](a => {
+      Mealy(a => {
         val (x, mealyg) = g.runMealy(a)
         val (c, mealyf) = f.runMealy(x)
 
@@ -16,7 +16,7 @@ object ArrowInstances {
       })
 
     override def first[A, B, C](fa: Mealy[A, B]): Mealy[(A, C), (B, C)] =
-      Mealy[(A, C), (B, C)] { case (a, c) =>
+      Mealy { case (a, c) =>
         val (b, mealy) = fa.runMealy(a)
 
         ((b, c), first(mealy))

@@ -5,7 +5,7 @@ import cats.arrow.{Arrow, Profunctor}
 import com.github.sagifogel.freemanfunctors.data.{Costar, Fold, Forget, Mealy, Star}
 
 object ProfunctorsInstances {
-  implicit def arrowProfunctor: Profunctor[Function1] = new Profunctor[* => *] {
+  implicit def functionProfunctor: Profunctor[Function1] = new Profunctor[* => *] {
     override def dimap[A, B, C, D](fab: A => B)(f: C => A)(g: B => D): C => D =
       g compose fab compose f
   }
