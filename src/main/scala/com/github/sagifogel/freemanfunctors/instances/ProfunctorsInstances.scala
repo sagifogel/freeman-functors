@@ -27,9 +27,6 @@ object ProfunctorsInstances {
         fab.dimap(f)(g)
     }
 
-  /**
-    * Fold takes a way of monoidaly analyzing a B and will give you back a way of monoidaly analyzing an A
-    */
   implicit def foldProfunctor[M]: Profunctor[Fold[M, *, *]] = new Profunctor[Fold[M, *, *]] {
     override def dimap[A, B, C, D](fab: Fold[M, A, B])(f: C => A)(g: B => D): Fold[M, C, D] =
       Fold(k => fab.runFold(k compose g) compose f)
