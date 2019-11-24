@@ -66,15 +66,11 @@ object StrongInstances {
 
    def foldStrong[M](implicit P: Profunctor[Fold[M, *, *]]): Strong[Fold[M, *, *]] = new Strong[Fold[M, *, *]] {
      override def first[A, B, C](fa: Fold[M, A, B]): Fold[M, (A, C), (B, C)] = {
-       Fold(k => {
-        case (a, c) => fa.runFold(b => k((b, c)))(a)
-       })
+       Fold(k => { case (a, c) => fa.runFold(b => k((b, c)))(a) })
      }
 
      override def second[A, B, C](fa: Fold[M, A, B]): Fold[M, (C, A), (C, B)] =
-       Fold(k => {
-         case (c, a) => fa.runFold(b => k((c, b)))(a)
-       })
+       Fold(k => { case (c, a) => fa.runFold(b => k((c, b)))(a) })
 
      override def dimap[A, B, C, D](fab: Fold[M, A, B])(f: C => A)(g: B => D): Fold[M, C, D] =
        P.dimap(fab)(f)(g)
